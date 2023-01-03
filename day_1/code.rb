@@ -31,4 +31,4 @@ end
 
 string = YAML.load_file("input.yml")
 
-p result(string) # prints the sum of top 3 sub arrays totals
+p result(string) # prints the sum of top 3 sub array's totals
