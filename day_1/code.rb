@@ -8,27 +8,27 @@ def result(str)
     master_array << i.split("\n")
   end
 
-  top_three = totals(master_array).max(3)
+  top_three_totals = subarray_wise_total(master_array).max(3) # for solution of the first problem replace lines 11 and 13 with `totals(master_array).max`
 
-  top_three.sum
+  top_three_totals.sum
 end
 
-def convert(array)
+def convert_elements_to_integers(array)
   for i in array
     i.map! { |str| str.to_i }
   end
 end
 
-def totals(array)
-  totals_array = []
+def subarray_wise_total(array)
+  array_with_totals = []
 
-  for i in convert(array)
-    totals_array << i.sum
+  for i in convert_elements_to_integers(array)
+    array_with_totals << i.sum
   end
 
-  totals_array
+  array_with_totals
 end
 
 string = YAML.load_file("input.yml")
 
-p result(string)
+p result(string) # prints the sum of top 3 sub arrays totals
