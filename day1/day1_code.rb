@@ -8,7 +8,7 @@ def result(str)
     master_array << i.split("\n")
   end
 
-  top_three_totals = subarray_wise_total(master_array).max(3) # for solution of the first problem replace lines 11 and 13 with `totals(master_array).max`
+  top_three_totals = subarray_wise_total(master_array).max(3) # for solution of the first problem replace lines 11 and 13 with `subarray_wise_total(master_array).max`
 
   top_three_totals.sum
 end
@@ -29,6 +29,6 @@ def subarray_wise_total(array)
   array_with_totals
 end
 
-string = YAML.load_file("input.yml")
+string = YAML.load_file("day1_input.yml")
 
 p result(string) # prints the sum of top 3 sub array's totals
