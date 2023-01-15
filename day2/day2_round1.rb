@@ -1,10 +1,9 @@
-require 'pry'
 require 'yaml'
 
-def format_guide(str)
-  base_arr = str.split("\n")
+def format_array(str)
+  base_array = str.split("\n")
 
-  base_arr.each do |i|
+  base_array.each do |i|
     i.delete! " "
   end
 end
@@ -17,7 +16,7 @@ end
 # Y for paper
 # Z for scissors
 
-def converter(str)
+def decrypt(str)
   if str == 'A' || str == 'X'
     'rock' 
   elsif str == 'B' || str == 'Y'
@@ -54,9 +53,9 @@ def round_score(opponent, player)
     score += 3
   end
 
-  if win?(converter(player), converter(opponent))
+  if win?(decrypt(player), decrypt(opponent))
     score += 6
-  elsif win?(converter(opponent), converter(player))
+  elsif win?(decrypt(opponent), decrypt(player))
     score += 0
   else
     score += 3
@@ -66,10 +65,10 @@ def round_score(opponent, player)
 end
 
 def total_score(str)
-  arr = format_guide(str)
+  array = format_array(str)
   total_score = []
 
-  arr.each do |i|
+  array.each do |i|
     total_score << round_score(i[0], i[1])
   end
 

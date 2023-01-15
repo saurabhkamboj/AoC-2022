@@ -1,15 +1,12 @@
+require 'pry'
 require 'yaml'
-
-# A for rock
-# B for paper
-# C for scissors
 
 WINS = [['A', 'C'], ['C', 'B'], ['B', 'A']]
 
-def format_guide(str)
-  base_arr = str.split("\n")
+def format_array(str)
+  base_array = str.split("\n")
 
-  base_arr.each do |i|
+  base_array.each do |i|
     i.delete! " "
   end
 end
@@ -17,12 +14,12 @@ end
 def find_player(opponent, outcome)
   player = ''
 
-  if outcome == 'Z'
-    WINS.each do |win| # player wins
+  if outcome == 'Z' # player wins
+    WINS.each do |win|
       player = win[0] if win[1] == opponent
     end
   elsif outcome == 'X' # player loses
-    WINS.each do |win|
+    WINS.select do |win|
       player = win[1] if win[0] == opponent
     end
   else
@@ -31,10 +28,6 @@ def find_player(opponent, outcome)
 
   player
 end
-
-# 1 for rock
-# 2 for paper
-# 3 for scissor
 
 def round_score(opponent, outcome)
   player = find_player(opponent, outcome)
@@ -62,10 +55,10 @@ def round_score(opponent, outcome)
 end
 
 def total_score(str)
-  arr = format_guide(str)
+  array = format_array(str)
   total_score = []
 
-  arr.each do |i|
+  array.each do |i|
     total_score << round_score(i[0], i[1])
   end
 
