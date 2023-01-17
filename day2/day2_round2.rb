@@ -6,27 +6,19 @@ WINS = [['A', 'C'], ['C', 'B'], ['B', 'A']]
 def format_array(str)
   base_array = str.split("\n")
 
-  base_array.each do |i|
+  base_array.map do |i|
     i.delete! " "
   end
 end
 
 def find_player(opponent, outcome)
-  player = ''
-
   if outcome == 'Z' # player wins
-    WINS.each do |win|
-      player = win[0] if win[1] == opponent
-    end
+    WINS.select { |win| win[1] == opponent }.flatten[0]
   elsif outcome == 'X' # player loses
-    WINS.select do |win|
-      player = win[1] if win[0] == opponent
-    end
+    WINS.select { |win| win[0] == opponent }.flatten[1]
   else
-    player = opponent
+    opponent
   end
-
-  player
 end
 
 def round_score(opponent, outcome)
