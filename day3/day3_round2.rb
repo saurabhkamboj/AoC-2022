@@ -3,25 +3,17 @@ require 'yaml'
 PRIORITY = ("a".."z").to_a + ("A".."Z").to_a
 
 def convert_string(str)
-  str.split("\n")
+  array = []
+
+  str.split("\n").each_slice(3) { |a| array << a }
+
+  array
 end
 
 def find_common_values(str)
-  array = convert_string(str)
-  common_values = []
-  a = 0
-  b = 1
-  c = 2
-
-  loop do
-    break if c > (array.size - 1)
-    common_values << (array[a].chars & array[b].chars & array[c].chars)
-    a += 3
-    b += 3
-    c += 3
+  convert_string(str).map do |arr|
+    arr[0].chars & arr[1].chars & arr[2].chars
   end
-  
-  common_values
 end
 
 def total_value(str)
