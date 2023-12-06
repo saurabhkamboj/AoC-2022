@@ -55,4 +55,3 @@ def determine_result(array)
 end
 
 p determine_result(games)
-input.close

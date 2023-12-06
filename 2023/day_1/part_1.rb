@@ -56,4 +56,3 @@ def find_first_digit(string)
 end
 
 p find_total_value(text.read)
-text.close

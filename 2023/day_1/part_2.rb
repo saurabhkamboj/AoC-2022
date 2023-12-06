@@ -75,4 +75,3 @@ def sub_strings(array)
 end
 
 p total_value(text.read)
-text.close
