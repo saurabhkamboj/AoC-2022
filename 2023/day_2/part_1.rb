@@ -24,7 +24,7 @@
     - Output > Number
 =end
 
-CUBES = { 'red' => 12, 'green' => 13, 'blue' => 14 }
+CUBES = { 'red' => 12, 'green' => 13, 'blue' => 14 }.freeze
 
 input = open('input.txt', 'r')
 games = input.readlines.map(&:chomp)
@@ -32,7 +32,7 @@ games = input.readlines.map(&:chomp)
 def game_configurations(array)
   array.map do |string|
     parts = string.split(': ')
-    hash = Hash.new(0).merge({ id:parts.first.split()[1] })
+    hash = Hash.new(0).merge(id: parts.first.split[1])
     parts.last.split('; ').each_with_object(hash) do |set, result|
       set.split(', ').each do |cube|
         cube_parts = cube.split

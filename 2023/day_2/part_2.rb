@@ -4,7 +4,7 @@ games = input.readlines.map(&:chomp)
 def game_configurations(array)
   array.map do |string|
     parts = string.split(': ')
-    hash = Hash.new(0).merge({ id:parts.first.split()[1] })
+    hash = Hash.new(0).merge(id: parts.first.split[1])
     parts.last.split('; ').each_with_object(hash) do |set, result|
       set.split(', ').each do |cube|
         cube_parts = cube.split
@@ -21,9 +21,9 @@ def game_configurations(array)
 end
 
 def determine_result(array)
-  game_configurations(array).map do |game, array|
-    game.each_with_object([]) do |(key, value), array|
-      array << value.to_i if ['green', 'blue', 'red'].include?(key)
+  game_configurations(array).map do |game|
+    game.each_with_object([]) do |(key, value), result|
+      result << value.to_i if %w[green blue red].include?(key)
     end.inject(:*)
   end.sum
 end
