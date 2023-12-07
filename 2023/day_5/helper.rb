@@ -13,12 +13,6 @@ class Range
     size.zero?
   end
 
-  def split(other)
-    return nil unless common = self & other
-
-    [first...common.first, last...common.last].filter { |element| !element.empty? }
-  end
-
   def +(other)
     first + other..last + other
   end
