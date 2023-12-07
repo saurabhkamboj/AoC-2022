@@ -60,33 +60,30 @@ def format(file)
   .map { |group| group.split(":") }
   .map do |group|
     [group[0], group[1].strip.split("\n")
-    .map { |row| row.split }]
+    .map { |row| row.split.map(&:to_i) }]
   end.to_h
 end
 
 almanac = format(file)
 seeds = almanac['seeds'].flatten
-materials = almanac.except('seeds')
+maps = almanac.except('seeds').values
 
-def locations(seeds, materials)
+def locations(seeds, maps)
   seeds.map do |seed|
     source = seed.to_i
-    materials.each do |key, value|
-      group = select_group(value, source)
-      next if group.empty?
-
-      source = group[0] + (source - group[1])
+    maps.each do |material_maps|
+      map = select_group(material_maps, source)
+      (source = ((map[0] - map[1]) + source)) if !!map
     end
 
     source
   end
 end
 
-def select_group(value, source)
-  value.select do |group|
-    group = group.map(&:to_i)
-    (group[1]..group[1] + group[2]).include?(source)
-  end.flatten.map(&:to_i)
+def select_group(maps, source)
+  maps.find do |map|
+    (map[1]..map[1] + (map[2] - 1)).include?(source)
+  end
 end
 
-p locations(seeds, materials).min
+p locations(seeds, maps).min
