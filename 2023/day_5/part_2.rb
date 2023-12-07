@@ -1,4 +1,4 @@
-# Some useful suggestion by Symbroson on Reddit
+# Includes some useful suggestions by Symbroson on Reddit
 
 require_relative 'helper'
 
