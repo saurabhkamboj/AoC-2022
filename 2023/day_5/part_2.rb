@@ -1,57 +1,25 @@
-# - The seed line describes range of seed numbers
-# - The line comes in pairs, within each pair
-#   - The first value is start of range
-#   - The second value is length of range
-# - Consider all the numbers within these ranges as seeds.
+# Some useful suggestion by Symbroson on Reddit
 
-=begin
-  Breakdown
-    - The seed array contains multiple pairs
-    - Each pair consists of 2 numbers
-    - The first number is the range start
-      and the second number is the length.
-    - Find all seeds between these ranges.
+require_relative 'helper'
 
-  Problem
-    - Iterate over all odd numbers
-    - Collect all numbers within the range
-    - Return an array containing all the numbers
+input = File.read('input.txt')
 
-  Data structures
-    - Array of seeds = ["79", "14", "55", "13"]
-    - Jump on each iteration
+seeds, *maps = input.split("\n\n")
+seed_ranges = seeds.split[1..].map(&:to_i).each_slice(2).map { _1.._1 + (_2 - 1)}
+$map_ranges = maps.map { |map| map.split.map(&:to_i)[2..].each_slice(3).map { [_2.._2 + (_3 - 1), _1 - _2] }}
 
-  Algorithm
-    - Iterate from 1 upto size of the array
-      - Skip iterate if number is even
-      - Add all numbers from array[num]..array[num] + array[num + 1]
-    - Return the array and flatten it
-=end
+def locations(seed_range, index)
+  return seed_range unless !!$map_ranges[index]
 
-file = File.open('input.txt')
-
-def format(file)
-  file.read.split("\n\n")
-  .map { |group| group.split(":") }
-  .map do |group|
-    [group[0], group[1].strip.split("\n")
-    .map { |row| row.split }]
-  end.to_h
+  locations = $map_ranges[index].select { |map| seed_range.intersect?(map[0]) }
+  new_seed_ranges = !locations.empty? ? corresponding_locations(seed_range, locations) : [seed_range]
+  new_seed_ranges.flat_map { |range| locations(range, index + 1) }
 end
 
-# Collect all seed ranges
-def all_ranges(numbers)
-  numbers.map(&:to_i).select(&:even?).map do |index|
-    (numbers[index]..(numbers[index] + numbers[index + 1] - 1))
+def corresponding_locations(seed_range, locations)
+  locations.map do |location|
+    (seed_range & location[0]) + location[1]
   end
 end
 
-almanac = format(file)
-seed_ranges = almanac['seeds'].flatten.map(&:to_i)
-materials = almanac.except('seeds')
-
-p seed_ranges
-
-def locations(seed_ranges, materials)
-
-end
+p seed_ranges.flat_map { |seed_range| locations(seed_range, 0) }.map(&:first).min
