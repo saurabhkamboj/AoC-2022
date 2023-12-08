@@ -21,19 +21,21 @@ end
     - (ax^2 + bx + c=0)
 
   - Quadratic formula
-  - x1 = (-b + sqrt(b**2 - 4ac))/2a
-  - x2 = (-b - sqrt(b**2 - 4ac))/2a
+  - max = (-b + sqrt(b**2 - 4ac))/2a
+  - min = (-b - sqrt(b**2 - 4ac))/2a
     - a = 1
     - x = speed
     - b = -time
     - c = distance + 1
+  - min.ceil (to account for going up in distance)
+  - max.floor (to account for going down in distance)
 =end
 
 def ways(time, record_distance)
   max_speed = (time + Math.sqrt(time**2 - 4*(record_distance)))/2
   min_speed = (time - Math.sqrt(time**2 - 4*(record_distance)))/2
 
-  max_speed.ceil - min_speed.floor - 1
+  (min_speed.ceil..max_speed.floor).count
 end
 
-p ways(time, (distance + 1))
+p ways(time, distance)
