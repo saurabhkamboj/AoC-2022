@@ -50,23 +50,41 @@
 
 input = File.read('input.txt')
 pairs = input.split("\n").map(&:split).to_h
-hands, bids = pairs.keys, pairs.values
 $cards = %w(A K Q J T 9 8 7 6 5 4 3 2).reverse.zip(1..13).to_h.freeze
 
-def sort_hands(hands)
-  hands.map(&:chars).sort do |a, b|
-    a_type = find_type(a)
-    b_type = find_type(b)
-    compare(a, b)
-  end
+def sum_of_products(pairs)
+  sort_hands(pairs).map.with_index do |pair, index|
+    (index + 1) * pair[1].to_i
+  end.sum
 end
 
-def type(hand)
-  :five_of_a_kind if hand.all? { _1 }
-  :four_of_a_kind if 
+def sort_hands(pairs)
+  pairs.sort do |a, b|
+    compare(a[0].chars, b[0].chars)
   end
 end
 
 def compare(a, b)
-
+  comparison = type(a) <=> type(b)
+  comparison == 0 ? compare_cards(a, b) : comparison
 end
+
+def compare_cards(a, b)
+  a_values = a.map { $cards[_1] }
+  b_values = b.map { $cards[_1] }
+  a_values <=> b_values
+end
+
+def type(hand)
+  hand = hand.tally
+
+  return 7 if hand.count == 1
+  return 6 if hand.any? { _2 == 4 }
+  return 5 if hand.count == 2
+  return 4 if hand.any? { _2 == 3 }
+  return 3 if hand.count == 3
+  return 2 if hand.any? { _2 == 2 }
+  1
+end
+
+p sum_of_products(pairs)
